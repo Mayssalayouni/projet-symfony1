@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProjetRepository;
-use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProjetRepository::class)]
@@ -14,18 +15,22 @@ class Projet
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $titre = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $discription = null;
+    private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $start_date = null;
+    #[ORM\Column(length: 30)]
+    private ?string $etat = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $end_date = null;
-   
+    #[ORM\ManyToMany(targetEntity: Chercheur::class, mappedBy: 'projets')]
+    private Collection $chercheurs;
+
+    public function __construct()
+    {
+        $this->chercheurs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,38 +49,53 @@ class Projet
         return $this;
     }
 
-    public function getDiscription(): ?string
+    public function getDescription(): ?string
     {
-        return $this->discription;
+        return $this->description;
     }
 
-    public function setDiscription(string $discription): static
+    public function setDescription(string $description): static
     {
-        $this->discription = $discription;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getEtat(): ?string
     {
-        return $this->start_date;
+        return $this->etat;
     }
 
-    public function setStartDate(\DateTimeInterface $start_date): static
+    public function setEtat(string $etat): static
     {
-        $this->start_date = $start_date;
+        $this->etat = $etat;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    /**
+     * @return Collection<int, Chercheur>
+     */
+    public function getChercheurs(): Collection
     {
-        return $this->end_date;
+        return $this->chercheurs;
     }
 
-    public function setEndDate(\DateTimeInterface $end_date): static
+    public function addChercheur(Chercheur $chercheur): static
     {
-        $this->end_date = $end_date;
+        if (!$this->chercheurs->contains($chercheur)) {
+            $this->chercheurs->add($chercheur);
+            $chercheur->addProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChercheur(Chercheur $chercheur): static
+    {
+        if ($this->chercheurs->removeElement($chercheur)) {
+            $chercheur->removeProjet($this);
+        }
 
         return $this;
     }
