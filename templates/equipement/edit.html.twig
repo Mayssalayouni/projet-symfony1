@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Equipement{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="display-4 mb-4">Edit Equipement</h1>
+
+        {{ include('equipement/_form.html.twig', {'button_label': 'Update', 'form_class': 'mt-3'}) }}
+<div style="margin-top:10px"  class="d-grid gap-2 d-md-flex">
+
+        <a href="{{ path('app_equipement_index') }}" class="btn btn-secondary">Back to List</a>
+        {{ include('equipement/_delete_form.html.twig', {'button_label': 'Delete', 'form_class': 'mt-3', 'confirm_class': 'btn btn-danger'}) }}
+    </div>
+    </div>
+{% endblock %}

@@ -2,27 +2,29 @@
 
 namespace App\Form;
 
-use App\Entity\Equipe;
+use App\Entity\Equipement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EquipeType extends AbstractType
+class EquipementType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
-            ->add('description')
+            ->add('Nom')
+            ->add('Discription')
             ->add('etat')
-            ->add('diponibilite')
+            ->add('Disponibilite')
+            ->add('ChercheurAtt')
+            ->add('ProjetAtt')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Equipe::class,
+            'data_class' => Equipement::class,
         ]);
     }
 }

@@ -88,4 +88,6 @@ class ChercheurController extends AbstractController
 
         return $this->redirectToRoute('app_chercheur_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
 }

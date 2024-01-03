@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Equipement Index{% endblock %}
+
+{% block body %}
+    <div class="container mt-5 custom-background">
+        <h1 class="display-4 mb-4">Equipement Index</h1>
+
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Etat</th>
+                    <th scope="col">Disponibilite</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for equipement in equipements %}
+                    <tr>
+                        <td>{{ equipement.id }}</td>
+                        <td>{{ equipement.Nom }}</td>
+                        <td>{{ equipement.Discription }}</td>
+                        <td>{{ equipement.etat }}</td>
+                        <td>{{ equipement.Disponibilite ? 'Yes' : 'No' }}</td>
+                        <td>
+                            <a href="{{ path('app_equipement_show', {'id': equipement.id}) }}" class="btn btn-info btn-sm">Show</a>
+                            <a href="{{ path('app_equipement_edit', {'id': equipement.id}) }}" class="btn btn-primary btn-sm">Edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">No records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_equipement_new') }}" class="btn btn-success">Create New</a>
+    </div>
+{% endblock %}
