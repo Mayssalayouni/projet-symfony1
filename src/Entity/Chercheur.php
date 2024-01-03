@@ -37,9 +37,17 @@ class Chercheur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Projet::class, inversedBy: 'chercheurs')]
     private Collection $projets;
 
+    #[ORM\OneToMany(mappedBy: 'ChervheurAtt', targetEntity: Equipement::class)]
+    private Collection $equipements;
+
+    #[ORM\ManyToMany(targetEntity: Publication::class, inversedBy: 'chercheurs')]
+    private Collection $Publication;
+
     public function __construct()
     {
         $this->projets = new ArrayCollection();
+        $this->equipements = new ArrayCollection();
+        $this->Publication = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -138,6 +146,60 @@ class Chercheur implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeProjet(Projet $projet): static
     {
         $this->projets->removeElement($projet);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Equipement>
+     */
+    public function getEquipements(): Collection
+    {
+        return $this->equipements;
+    }
+
+    public function addEquipement(Equipement $equipement): static
+    {
+        if (!$this->equipements->contains($equipement)) {
+            $this->equipements->add($equipement);
+            $equipement->setChervheurAtt($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEquipement(Equipement $equipement): static
+    {
+        if ($this->equipements->removeElement($equipement)) {
+            // set the owning side to null (unless already changed)
+            if ($equipement->getChervheurAtt() === $this) {
+                $equipement->setChervheurAtt(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Publication>
+     */
+    public function getPublication(): Collection
+    {
+        return $this->Publication;
+    }
+
+    public function addPublication(Publication $publication): static
+    {
+        if (!$this->Publication->contains($publication)) {
+            $this->Publication->add($publication);
+        }
+
+        return $this;
+    }
+
+    public function removePublication(Publication $publication): static
+    {
+        $this->Publication->removeElement($publication);
 
         return $this;
     }
