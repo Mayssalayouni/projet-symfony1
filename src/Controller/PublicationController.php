@@ -78,4 +78,26 @@ class PublicationController extends AbstractController
 
         return $this->redirectToRoute('app_publication_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/rech/{titre}', name: 'recherche', methods: ['GET'])]
+    public function recherchePublications(Request $request, PublicationRepository $publicationRepository): Response
+    
+    
+{
+    // Récupérer les critères de recherche depuis la requête GET
+    $titre = $request->query->get('titre');
+    // Récupérer d'autres critères de recherche si nécessaire (auteur, MotsCle) de la même manière
+
+    // Effectuer la recherche en fonction des critères
+    $publications = $publicationRepository->findBy([
+        'titre' => $titre,
+        // Ajoutez d'autres critères si nécessaire
+    ]);
+
+    // Vous pouvez également passer les données à votre vue
+    return $this->render('publication/recherche.html.twig', [
+        'publications' => $publications,
+    ]);
+}
+    
+    
 }
