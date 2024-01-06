@@ -78,18 +78,13 @@ class EquipementController extends AbstractController
 
         return $this->redirectToRoute('app_equipement_index', [], Response::HTTP_SEE_OTHER);
     }
-     /**
-     * @Route("/suivi-equipements", name="suivi_equipements")
-     */
+     
     public function suiviEquipements(): Response
     {
-        // Récupérer le référentiel de l'entité Equipement
         $equipementRepository = $this->getDoctrine()->getRepository(Equipement::class);
 
-        // Récupérer tous les équipements
         $equipements = $equipementRepository->findAll();
 
-        // Vous pouvez également passer les données à votre vue
         return $this->render('show.html.twig', [
             'equipements' => $equipements,
         ]);

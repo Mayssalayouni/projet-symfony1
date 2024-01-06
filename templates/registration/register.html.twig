@@ -18,8 +18,9 @@
                         {{ form_row(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
                     </div>
                     <div class="mb-3">
-                        {{ form_row(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                        {{ form_row(registrationForm.email,) }}
                     </div>
+                    
                     <div class="mb-3">
                         {{ form_row(registrationForm.plainPassword, {
                             'label': 'Password',

@@ -104,4 +104,19 @@ class ProjetController extends AbstractController
 
         return $this->redirectToRoute('projet_show', ['id' => $projetId]);
     }
+
+    public function AfficherProjet($id): Response
+    {
+        $projet = $this->getDoctrine()->getRepository(Projet::class)->find($id);
+
+        $chercheurs = $projet->getChercheurs();
+
+        $publications = $projet->getPublications();
+
+        return $this->render('projet/show.html.twig', [
+            'projet' => $projet,
+            'chercheurs' => $chercheurs,
+            'publications' => $publications,
+        ]);
+    }
 }

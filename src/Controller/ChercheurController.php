@@ -89,5 +89,19 @@ class ChercheurController extends AbstractController
         return $this->redirectToRoute('app_chercheur_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    public function AfficherChercheur($id): Response
+    {
+        $chercheur = $this->getDoctrine()->getRepository(Chercheur::class)->find($id);
+
+        $projets = $chercheur->getProjets();
+
+        $equipements = $chercheur->getEquipements();
+
+        return $this->render('chercheur/show.html.twig', [
+            'chercheur' => $chercheur,
+            'projets' => $projets,
+            'equipements' => $equipements,
+        ]);
+    }
 
 }

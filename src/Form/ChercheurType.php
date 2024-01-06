@@ -16,7 +16,7 @@ class ChercheurType extends AbstractType
             ->add('prenom')
             ->add('email')
             ->add('password')
-            ->add('roles')
+            #->add('roles')
         ;
     }
 

@@ -83,21 +83,35 @@ class PublicationController extends AbstractController
     
     
 {
-    // Récupérer les critères de recherche depuis la requête GET
     $titre = $request->query->get('titre');
-    // Récupérer d'autres critères de recherche si nécessaire (auteur, MotsCle) de la même manière
 
-    // Effectuer la recherche en fonction des critères
     $publications = $publicationRepository->findBy([
         'titre' => $titre,
-        // Ajoutez d'autres critères si nécessaire
     ]);
 
-    // Vous pouvez également passer les données à votre vue
     return $this->render('publication/recherche.html.twig', [
         'publications' => $publications,
     ]);
 }
-    
+#[Route('pubprojet', name: 'app_publication_projet', methods: ['GET'])]
+
+public function affichageProjetsPublications(): Response
+{
+    $publicationRepository = $this->getDoctrine()->getRepository(Publication::class);
+
+    $publications = $publicationRepository->findAll();
+
+    foreach ($publications as $publication) {
+        $projetsAssocies = $publication->getProjets();
+
+        foreach ($projetsAssocies as $projet) {
+            dump($projet);
+        }
+    }
+
+    return $this->render('show.html.twig', [
+        'publications' => $publications,
+    ]);
+}
     
 }
